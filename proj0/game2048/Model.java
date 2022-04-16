@@ -5,7 +5,7 @@ import java.util.Observable;
 
 
 /** The state of a game of 2048.
- *  @author TODO: YOUR NAME HERE
+ *  @author TODO: Ruijin Ye
  */
 public class Model extends Observable {
     /** Current contents of the board. */
@@ -138,6 +138,19 @@ public class Model extends Observable {
      * */
     public static boolean emptySpaceExists(Board b) {
         // TODO: Fill in this function.
+        boolean stop = false;
+        for (int i = 0; i < b.size(); i++) {
+            for (int j = 0; j < b.size(); j++) {
+                // return true if any board is null
+                if (b.tile(j, i) == null) {
+                    stop = true;
+                    return true;
+                }
+            }
+            if (stop) {
+                break;
+            }
+        }
         return false;
     }
 
@@ -147,7 +160,23 @@ public class Model extends Observable {
      * given a Tile object t, we get its value with t.value().
      */
     public static boolean maxTileExists(Board b) {
-        // TODO: Fill in this function.
+        //return true if any of the tile.value() == 2048 -- (MAX_PIECE)
+        boolean stop = false;
+        for (int i = 0; i < b.size(); i++) {
+            for (int j = 0; j < b.size(); j++) {
+                if(b.tile(j, i) == null) {
+                    continue;
+                }
+                else if(b.tile(j, i).value() == MAX_PIECE) {
+                    // found the winner so return and end the loop!
+                    stop = true;
+                    break;
+                }
+            }
+            if(stop){
+                return true;
+            }
+        }
         return false;
     }
 
@@ -157,8 +186,44 @@ public class Model extends Observable {
      * 1. There is at least one empty space on the board.
      * 2. There are two adjacent tiles with the same value.
      */
+
+
     public static boolean atLeastOneMoveExists(Board b) {
-        // TODO: Fill in this function.
+        boolean stop = false;
+        for (int i = 0; i < b.size(); i++) {
+            for (int j = 0; j < b.size(); j++) {
+                //for each tile we check two thing  j is col/ i is row
+                //1. there is at least one empty space which is null
+                //2. check if the adjacent value is the same
+                if (b.tile(j, i) == null) {
+                    stop = true;
+                    return true;
+                } else if (j + 1 < b.size()) {// when at first row ---> check left and right
+                    if (b.tile(j, i).value() == b.tile(j + 1, i).value()) {// check right
+                        stop = true;
+                        return true;
+                    }
+                } if (j - 1 > 0) {
+                    if (b.tile(j, i).value() == b.tile(j - 1, i).value()) {// check left
+                        stop = true;
+                        return true;
+                    }
+                } if (i + 1 < b.size()) {
+                    if (b.tile(j, i).value() == b.tile(j, i + 1).value()) {// check down
+                        stop = true;
+                        return true;
+                    }
+                } if (i - 1 > 0) {
+                    if (b.tile(j, i).value() == b.tile(j, i - 1).value()) {// check up
+                        stop = true;
+                        return true;
+                    }
+                }
+            }
+            if (stop) {
+                break;
+            }
+        }
         return false;
     }
 
