@@ -110,9 +110,83 @@ public class Model extends Observable {
         boolean changed;
         changed = false;
 
+        board.setViewingPerspective(side);
         // TODO: Modify this.board (and perhaps this.score) to account
         // for the tilt to the Side SIDE. If the board changed, set the
         // changed local variable to true.
+        //** step 1 move every tile to be next-to-other
+        // *   coordinates would be
+        //      3
+        //      2
+        //      1
+        //      0 1 2 3/
+        for (int c = 0; c < board.size(); c++) {
+            for (int r = board.size() - 1; r >= 0; r--) {
+                Tile t = tile(c, r);
+                if (t != null) {
+                    //search for the best position to move from top to bottom within the same col
+                    //find the top first null tile to move to if the rownum is > the current rownum
+                    int row_index = board.size() - 1;
+                    while (row_index > r) {
+                        if (tile(c, row_index) == null) {
+                            //found the null position to move to!
+                            break;
+                        }
+                        row_index--;
+                    }
+                    //row_index is the row num we want to move to iff row_index > r
+                    if (row_index > r) {
+                        board.move(c, row_index, t);
+                        changed = true;
+                    }
+
+                }
+            }
+
+            //** Step2: Merge cases*/
+            for (int row = board.size() - 1; row >= 0; row--) {
+                //** if the current tile.value is the same as the one below; Merge!
+                Tile t = board.tile(c, row);
+                int idx_below = row - 1;
+
+                if (t != null && idx_below >= 0) {
+                    Tile tile_below = board.tile(c, idx_below);
+
+                    if (tile_below == null) {
+                        continue;
+                    }
+                    else if (t.value() == tile_below.value()) {
+                        // merge the below from below to the current
+                        // add the score
+                        // also if merge, move the next non-null tile up
+                        if(board.move(c, row, tile_below)) {
+                            score += t.value() * 2;
+
+                            //search for the non-null tile starting from [idx_below - 1]  PUSH UP !
+                            for (int i = idx_below - 1; i >= 0; i--) {
+                                Tile t2 = tile(c, i);
+                                if (t2 != null) {
+                                    //found the non-null tile
+                                    int row_index = board.size() - 1;
+                                    //check tiles above
+                                    while (row_index > i) {
+                                        if (tile(c, row_index) == null) {
+                                            break;
+                                        }
+                                        row_index -= 1;
+                                    }
+                                    // found the empty tile position at row_index
+                                    board.move(c, row_index, t2);
+                                }
+                            }
+                            changed = true;
+                        }
+                    }
+                }
+            }
+        }
+
+        board.setViewingPerspective(Side.NORTH);
 
         checkGameOver();
         if (changed) {
@@ -198,22 +272,23 @@ public class Model extends Observable {
                 if (b.tile(j, i) == null) {
                     stop = true;
                     return true;
-                } else if (j + 1 < b.size()) {// when at first row ---> check left and right
+                }
+                else if (j + 1 < b.size() && b.tile(j + 1, i) != null) {// when at first row ---> check left and right
                     if (b.tile(j, i).value() == b.tile(j + 1, i).value()) {// check right
                         stop = true;
                         return true;
                     }
-                } if (j - 1 > 0) {
+                } if (j - 1 >= 0 && b.tile(j - 1, i) != null) {
                     if (b.tile(j, i).value() == b.tile(j - 1, i).value()) {// check left
                         stop = true;
                         return true;
                     }
-                } if (i + 1 < b.size()) {
+                } if (i + 1 < b.size() && b.tile(j, i+1) != null) {
                     if (b.tile(j, i).value() == b.tile(j, i + 1).value()) {// check down
                         stop = true;
                         return true;
                     }
-                } if (i - 1 > 0) {
+                } if (i - 1 >= 0 && b.tile(j, i-1) != null) {
                     if (b.tile(j, i).value() == b.tile(j, i - 1).value()) {// check up
                         stop = true;
                         return true;
