@@ -1,13 +1,77 @@
 package deque;
 
 import org.junit.Test;
-
+import edu.princeton.cs.algs4.StdRandom;
 import java.lang.reflect.Array;
+import java.util.Iterator;
+import java.util.Optional;
 
 import static org.junit.Assert.*;
 
 
 public class ArrayDequeTest {
+//    @Test
+    /** Testing the Iterator*/
+//    public static void main(String[] args) {
+//        ArrayDeque<Integer> ad = new ArrayDeque<Integer>();
+//        ArrayDeque<Integer> ad2 = new ArrayDeque<Integer>();
+//
+//        for (int i = 0; i < 50; i+=1) {
+//            ad.addLast(i);
+//            ad2.addLast(i);
+//        }
+//
+//        if(ad.equals(ad2)) {System.out.println("Yes");}
+//    }
+
+    @Test
+    public void randomizedTest() {
+        ArrayDeque<Integer> ad = new ArrayDeque<Integer>();
+        LinkedListDeque<Integer> lld = new LinkedListDeque<Integer>();
+
+        int N = 100000;
+        for (int i = 0; i < N; i += 1) {
+            int operationNumber = StdRandom.uniform(0, 2);
+            if (operationNumber == 0) {
+                // addLast
+                int randVal = StdRandom.uniform(0, 100);
+                ad.addLast(randVal);
+                lld.addLast(randVal);
+                assertEquals(ad.get(ad.size() - 1), lld.get(lld.size() - 1));
+            }
+            else if (operationNumber == 1) {
+                // size
+                int size = ad.size();
+                int size_lld = lld.size();
+                assertEquals(size, size_lld);
+            }
+            else if (operationNumber == 2 && ad.size() > 0) {
+                // getFirst
+                int last = ad.get(0);
+                int last_lld = lld.get(0);
+                assertEquals(last, last_lld);
+            }
+            else if (operationNumber == 3 && ad.size() > 0) {
+                // remove last
+                int last = ad.removeLast();
+                int last_lld = lld.removeLast();
+                assertEquals(last, last_lld);
+            }
+            else if (operationNumber == 4 && ad.size() > 0) {
+                // remove first
+                int last = ad.removeFirst();
+                int last_lld = lld.removeFirst();
+                assertEquals(last, last_lld);
+            }
+        }
+    }
+
+
+
+
+
+
+
     @Test
     /** Adds a few things to the list, checking isEmpty() and size() are correct,
      * finally printing the results.
@@ -69,16 +133,19 @@ public class ArrayDequeTest {
 
         ArrayDeque<String> lld1 = new ArrayDeque<String>();
 
-        assertTrue("A newly initialized LLDeque should be empty", lld1.isEmpty());
-        lld1.addFirst("front");
-
-        // The && operator is the same as "and" in Python.
-        // It's a binary operator that returns true if both arguments true, and false otherwise.
-
         lld1.addFirst("foo");
-        lld1.addLast("middle");
+        lld1.addFirst("far");
+        lld1.addFirst("fee");
+        lld1.addFirst("faau");
+//        for (int i = 0; i < 100; i++) {
+//            lld1.addLast("wrong");
+//        }
 
-        assertEquals("foo", lld1.get(0));
+        assertEquals("faau", lld1.get(0));
+        assertEquals("fee", lld1.get(1));
+        assertEquals("foo", lld1.get(3));
+//        assertEquals("faau", lld1.get(0));
+//        assertEquals("faau", lld1.get(0));
         System.out.println("Printing out get item: " + lld1.get(0));
 
         System.out.println("Printing out deque: ");

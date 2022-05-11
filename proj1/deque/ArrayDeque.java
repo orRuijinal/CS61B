@@ -1,6 +1,7 @@
 package deque;
+import java.util.Iterator;
 
-public class ArrayDeque<T> {
+public class ArrayDeque<T> implements Iterable<T> {
     private T[] items;
     private int size;
     private int nextFirst, nextLast;
@@ -10,8 +11,8 @@ public class ArrayDeque<T> {
     public ArrayDeque() {
         items = (T []) new Object[8];
         size = 0;
-        nextFirst = 4;
-        nextLast = 5;
+        nextFirst = 0;
+        nextLast = 1;
         //usage = getUsage();
     }
 
@@ -20,6 +21,47 @@ public class ArrayDeque<T> {
             return 1.0;
         }
         return (double) size / items.length;
+    }
+
+    public boolean contains(T item) {
+        for (int i = 0; i < size; i++) {
+            if(item.equals(items[((i + nextFirst) + 1) % items.length])) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null) { return false; }
+        if (this == o) { return true; }
+        if (this.getClass() != o.getClass()) {return false;}
+        ArrayDeque<T> other = (ArrayDeque<T>) o;
+        if (this.size() != other.size()) {return false;}
+
+        for (T item : this) {
+            if(!other.contains(item)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+
+    private class ArrayDequeIterator implements Iterator<T> {
+        private int wizPos;
+        public ArrayDequeIterator () { wizPos = 0; }
+        public boolean hasNext() { return wizPos < size; }
+        public T next() {
+            T returnItem = items[((wizPos + nextFirst) + 1) % items.length];
+            wizPos += 1;
+            return returnItem;
+        }
+    }
+
+    public Iterator<T> iterator() {
+        return new ArrayDequeIterator();
     }
 
     public void printDeque() {
@@ -41,12 +83,6 @@ public class ArrayDeque<T> {
     public T removeLast() {
         T removed;
         if (isEmpty()) { return null; }
-
-        // resize the array if the usage is under 25%, half the size.
-        if (getUsage() < 0.25 && items.length > 16) {
-            resize(items.length / 2);
-        }
-
         if (nextLast == 0) {
             removed = items[items.length - 1];
             items[items.length - 1] = null;
@@ -58,6 +94,10 @@ public class ArrayDeque<T> {
             nextLast = nextLast - 1;
         }
         size -= 1;
+        // resize the array if the usage is under 25%, half the size.
+        if (getUsage() < 0.25 && items.length > 16) {
+            resize(items.length / 2);
+        }
         return removed;
     }
 
@@ -65,24 +105,16 @@ public class ArrayDeque<T> {
         T removed;
 
         if (isEmpty()) { return null; }
+        //point to the first item
+        nextFirst = (nextFirst + 1) % items.length;
+        removed = items[nextFirst];
+        items[nextFirst] = null;
+        size -= 1;
 
         // resize the array if the usage is under 25%, half the size.
         if (getUsage() < 0.25 && items.length > 16) {
             resize(items.length / 2);
         }
-
-        //the first item would be at 0 if nextFirst is == length -1
-        if (nextFirst == items.length - 1) {
-            removed = items[0];
-            items[0] = null;
-            nextFirst = 0; // recycle
-        }
-        else {
-            removed = items[nextFirst + 1];
-            items[nextFirst + 1] = null;
-            nextFirst = nextFirst + 1; // recycle
-        }
-        size -= 1;
         return removed;
     }
 
@@ -123,10 +155,16 @@ public class ArrayDeque<T> {
 
     public void resize(int capacity) {
         T[] a = (T[]) new Object[capacity];
-        System.arraycopy(items, 0, a, 0, size);
+        //copy to the new array, starting from index 1
+        // the range is the right of nextFirst until the left of nextLast
+        for (int i = 1; i <= size; i++) {
+            a[i] = items[(++nextFirst) % items.length];
+        }
+        //System.arraycopy(items, (nextFirst+1) % items.length, a, 1, size);
+
         items = a;
-        nextFirst = capacity - 1;
-        nextLast = size;
+        nextFirst = 0;
+        nextLast = size + 1;
     }
 
     public boolean isEmpty() {
