@@ -10,19 +10,25 @@ import static org.junit.Assert.*;
 
 
 public class ArrayDequeTest {
-//    @Test
+   @Test
     /** Testing the Iterator*/
-//    public static void main(String[] args) {
-//        ArrayDeque<Integer> ad = new ArrayDeque<Integer>();
-//        ArrayDeque<Integer> ad2 = new ArrayDeque<Integer>();
-//
-//        for (int i = 0; i < 50; i+=1) {
-//            ad.addLast(i);
-//            ad2.addLast(i);
-//        }
-//
-//        if(ad.equals(ad2)) {System.out.println("Yes");}
-//    }
+    public static void main(String[] args) {
+        ArrayDeque<Integer> ad = new ArrayDeque<Integer>();
+        ArrayDeque<Integer> ad2 = new ArrayDeque<Integer>();
+        LinkedListDeque<Integer> ld1 = new LinkedListDeque<Integer>();
+
+        for (int i = 0; i < 50; i+=1) {
+            ad.addLast(i);
+            ad2.addLast(i);
+            ld1.addLast(i);
+        }
+
+        for (Integer item : ld1) {
+            System.out.println(item);
+        }
+
+        //if(ad.equals(ad2)) {System.out.println("Yes");}
+    }
 
     @Test
     public void randomizedTest() {
