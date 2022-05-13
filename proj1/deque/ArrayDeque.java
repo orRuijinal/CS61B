@@ -42,7 +42,7 @@ public class ArrayDeque<T> implements Iterable<T>, Deque<T> {
             return true;
         }
 
-        if (! (o instanceof ArrayDeque)) {
+        if (!(o instanceof ArrayDeque)) {
             return false;
         }
 
@@ -63,7 +63,7 @@ public class ArrayDeque<T> implements Iterable<T>, Deque<T> {
     private class ArrayDequeIterator implements Iterator<T> {
         private int wizPos;
 
-        public ArrayDequeIterator() {
+        ArrayDequeIterator() {
             wizPos = 0; }
 
         public boolean hasNext() {

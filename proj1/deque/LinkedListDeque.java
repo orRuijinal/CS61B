@@ -55,8 +55,8 @@ public class LinkedListDeque<T> implements Iterable<T>, Deque<T> {
             return false;
         }
 
-        for (int i = 0; i < size; i++) { 
-            if(other.get(i) != this.get(i)) {
+        for (int i = 0; i < size; i++) {
+            if (other.get(i) != this.get(i)) {
                 return false;
             }
         }
@@ -75,7 +75,7 @@ public class LinkedListDeque<T> implements Iterable<T>, Deque<T> {
 
         public T next() {
             T returnItem = wizNode.item;
-            sentinel = sentinel.next;
+            wizNode = wizNode.next;
             return returnItem;
         }
     }
