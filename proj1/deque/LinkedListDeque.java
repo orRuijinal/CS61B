@@ -65,12 +65,13 @@ public class LinkedListDeque<T> implements Iterable<T>, Deque<T> {
 
     private class LinkedListDequeIterator implements Iterator<T> {
         private Node wizNode;
+
         LinkedListDequeIterator() {
             wizNode = sentinel.next;
         }
 
         public boolean hasNext() {
-            return wizNode.next != sentinel;
+            return wizNode == sentinel;
         }
 
         public T next() {

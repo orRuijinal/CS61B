@@ -64,7 +64,8 @@ public class ArrayDeque<T> implements Iterable<T>, Deque<T> {
         private int wizPos;
 
         ArrayDequeIterator() {
-            wizPos = 0; }
+            wizPos = 0;
+        }
 
         public boolean hasNext() {
             return wizPos < size;

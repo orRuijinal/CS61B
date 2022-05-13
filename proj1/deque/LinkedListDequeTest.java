@@ -153,7 +153,7 @@ public class LinkedListDequeTest {
     public void iteratorTest() {
         LinkedListDeque<Integer> lld1 = new LinkedListDeque<>();
 
-        for (int i = 0; i < 1000; i++) {
+        for (int i = 0; i < 10; i++) {
             lld1.addLast(i);
         }
 
@@ -161,11 +161,10 @@ public class LinkedListDequeTest {
         for (int item : lld1) {
             assertEquals(item, i);
             i += 1;
+            System.out.println(lld1.iterator().hasNext());
         }
 
-        for (int j = 0; j < 100; j++) {
-            assertEquals(lld1.iterator().hasNext(), true);
-        }
+
 
     }
 }
