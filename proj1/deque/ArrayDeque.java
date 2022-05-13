@@ -34,17 +34,25 @@ public class ArrayDeque<T> implements Iterable<T>, Deque<T> {
 
     @Override
     public boolean equals(Object o) {
-        if (o == null) { return false; }
+        if (o == null) {
+            return false;
+        }
 
-        if (this == o) { return true; }
+        if (this == o) {
+            return true;
+        }
 
-        if (! (o instanceof ArrayDeque)) { return false; }
+        if (! (o instanceof ArrayDeque)) {
+            return false;
+        }
 
         ArrayDeque<T> other = (ArrayDeque<T>) o;
-        if (this.size() != other.size()) { return false; }
+        if (this.size() != other.size()) {
+            return false;
+        }
 
         for (T item : this) {
-            if(!other.contains(item)) {
+            if (!other.contains(item)) {
                 return false;
             }
         }
@@ -54,8 +62,13 @@ public class ArrayDeque<T> implements Iterable<T>, Deque<T> {
 
     private class ArrayDequeIterator implements Iterator<T> {
         private int wizPos;
-        public ArrayDequeIterator() { wizPos = 0; }
-        public boolean hasNext() { return wizPos < size; }
+
+        public ArrayDequeIterator() {
+            wizPos = 0; }
+
+        public boolean hasNext() {
+            return wizPos < size;
+        }
         public T next() {
             T returnItem = items[((wizPos + nextFirst) + 1) % items.length];
             wizPos += 1;
@@ -68,8 +81,8 @@ public class ArrayDeque<T> implements Iterable<T>, Deque<T> {
     }
 
     public void printDeque() {
-        for(int i = 0; i < items.length; i++){
-            if(!(items[i] == null)){
+        for (int i = 0; i < items.length; i++) {
+            if (!(items[i] == null)) {
                 System.out.print(items[i] + " ");
             }
         }
@@ -85,7 +98,9 @@ public class ArrayDeque<T> implements Iterable<T>, Deque<T> {
 
     public T removeLast() {
         T removed;
-        if (isEmpty()) { return null; }
+        if (isEmpty()) {
+            return null;
+        }
         if (nextLast == 0) {
             removed = items[items.length - 1];
             items[items.length - 1] = null;
@@ -106,7 +121,9 @@ public class ArrayDeque<T> implements Iterable<T>, Deque<T> {
     public T removeFirst() {
         T removed;
 
-        if (isEmpty()) { return null; }
+        if (isEmpty()) {
+            return null;
+        }
         //point to the first item
         nextFirst = (nextFirst + 1) % items.length;
         removed = items[nextFirst];
@@ -133,8 +150,7 @@ public class ArrayDeque<T> implements Iterable<T>, Deque<T> {
         // if next of nextFirst is -1, point the to end of the array
         if (nextFirst - 1 == -1) {
             nextFirst = items.length - 1;
-        }
-        else {
+        } else {
             nextFirst -= 1;
         }
     }

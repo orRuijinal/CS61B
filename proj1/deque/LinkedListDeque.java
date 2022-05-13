@@ -1,6 +1,6 @@
 package deque;
 import java.util.Iterator;
-import javax.swing.*;
+
 
 public class LinkedListDeque<T> implements Iterable<T>, Deque<T> {
     //** Create a node has data, prev, and next
@@ -26,15 +26,15 @@ public class LinkedListDeque<T> implements Iterable<T>, Deque<T> {
     }
 
 
-    private boolean contains(T item) {
-        for (int i = 0; i < size; i++) {
-            if (item.equals(sentinel.next.item)) {
-                return true;
-            }
-            sentinel = sentinel.next;
-        }
-        return false;
-    }
+//    private boolean contains(T item) {
+//        for (int i = 0; i < size; i++) {
+//            if (item.equals(sentinel.next.item)) {
+//                return true;
+//            }
+//            sentinel = sentinel.next;
+//        }
+//        return false;
+//    }
 
     @Override
     public boolean equals(Object o) {
@@ -51,10 +51,12 @@ public class LinkedListDeque<T> implements Iterable<T>, Deque<T> {
         }
 
         LinkedListDeque<T> other = (LinkedListDeque<T>) o;
-        if (this.size() != other.size()) { return false; }
+        if (this.size() != other.size()) {
+            return false;
+        }
 
-        for (T item : this) {
-            if (!other.contains(item)) {
+        for (int i = 0; i < size; i++) { 
+            if(other.get(i) != this.get(i)) {
                 return false;
             }
         }
@@ -68,7 +70,7 @@ public class LinkedListDeque<T> implements Iterable<T>, Deque<T> {
         }
 
         public boolean hasNext() {
-            return wizNode == sentinel;
+            return wizNode.next != sentinel;
         }
 
         public T next() {
@@ -88,12 +90,12 @@ public class LinkedListDeque<T> implements Iterable<T>, Deque<T> {
             sentinel.prev = sentinel.next = new Node(item, sentinel, sentinel);
         } else {
             //find the current first node
-            Node first_node = sentinel.next;
+            Node firstNode = sentinel.next;
             //sentinel.next should point to new Node
             //where NewNode.next point to firstNode, .prev is sentinel
-            sentinel.next = new Node(item, first_node, sentinel);
+            sentinel.next = new Node(item, firstNode, sentinel);
             //FirstNode.prev point to the new firstNode
-            first_node.prev = sentinel.next;
+            firstNode.prev = sentinel.next;
 
         }
         size += 1;
@@ -105,13 +107,13 @@ public class LinkedListDeque<T> implements Iterable<T>, Deque<T> {
         if (isEmpty()) {
             sentinel.next = sentinel.prev = new Node(item, sentinel, sentinel);
         } else {
-            Node last_node = sentinel.prev; // get the last node
+            Node lastNode = sentinel.prev; // get the last node
             //newNode.prev point to the new node, and newnode.next point to sentinel
-            Node new_node = new Node(item, sentinel, last_node);
+            Node newNode = new Node(item, sentinel, lastNode);
             //last_node.next should point to new node
-            last_node.next = new_node;
+            lastNode.next = newNode;
             //sentinel.prev should point to newNode now
-            sentinel.prev = new_node;
+            sentinel.prev = newNode;
         }
 
         //sentinel.prev = new Node(item, sentinel, sentinel.prev);
