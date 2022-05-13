@@ -25,9 +25,36 @@ public class LinkedListDeque<T> implements Iterable<T>, Deque<T> {
         sentinel = new Node(null, sentinel, sentinel);
     }
 
+
+    private boolean contains(T item) {
+        for (int i = 0; i < size; i++) {
+            if (item.equals(sentinel.next.item)) {
+                return true;
+            }
+            sentinel = sentinel.next;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null) { return false; }
+        if (this == o) { return true; }
+        if (!(o instanceof LinkedListDeque)) { return false; }
+        LinkedListDeque<T> other = (LinkedListDeque<T>) o;
+        if (this.size() != other.size()) { return false; }
+
+        for (T item : this) {
+            if(!other.contains(item)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     private class LinkedListDequeIterator implements Iterator<T> {
         private int wizPos;
-        public LinkedListDequeIterator () { wizPos = 0; }
+        public LinkedListDequeIterator() { wizPos = 0; }
         public boolean hasNext() { return wizPos < size; }
         public T next() {
             T returnItem = sentinel.next.item;
@@ -46,8 +73,7 @@ public class LinkedListDeque<T> implements Iterable<T>, Deque<T> {
         // else next point to the new node
         if(isEmpty()) {
             sentinel.prev = sentinel.next = new Node(item, sentinel, sentinel);
-        }
-        else{
+        } else {
             //find the current first node
             Node first_node = sentinel.next;
             //sentinel.next should point to new Node
@@ -102,6 +128,7 @@ public class LinkedListDeque<T> implements Iterable<T>, Deque<T> {
         // make the second last node as the last Node
         removed = sentinel.prev.item;
         sentinel.prev = sentinel.prev.prev;
+        sentinel.prev.next = sentinel;
         size -= 1;
         return removed;
     }
@@ -115,6 +142,7 @@ public class LinkedListDeque<T> implements Iterable<T>, Deque<T> {
         // size--;
         removed = sentinel.next.item;
         sentinel.next = sentinel.next.next;
+        sentinel.next.prev = sentinel;
         size -= 1;
         return removed;
     }

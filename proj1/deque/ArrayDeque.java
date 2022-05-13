@@ -16,16 +16,16 @@ public class ArrayDeque<T> implements Iterable<T>, Deque<T> {
         //usage = getUsage();
     }
 
-    public double getUsage() {
+    private double getUsage() {
         if (isEmpty()) {
             return 1.0;
         }
         return (double) size / items.length;
     }
 
-    public boolean contains(T item) {
+    private boolean contains(T item) {
         for (int i = 0; i < size; i++) {
-            if(item.equals(items[((i + nextFirst) + 1) % items.length])) {
+            if (item.equals(items[((i + nextFirst) + 1) % items.length])) {
                 return true;
             }
         }
@@ -51,7 +51,7 @@ public class ArrayDeque<T> implements Iterable<T>, Deque<T> {
 
     private class ArrayDequeIterator implements Iterator<T> {
         private int wizPos;
-        public ArrayDequeIterator () { wizPos = 0; }
+        public ArrayDequeIterator() { wizPos = 0; }
         public boolean hasNext() { return wizPos < size; }
         public T next() {
             T returnItem = items[((wizPos + nextFirst) + 1) % items.length];
@@ -87,8 +87,7 @@ public class ArrayDeque<T> implements Iterable<T>, Deque<T> {
             removed = items[items.length - 1];
             items[items.length - 1] = null;
             nextLast = items.length - 1;
-        }
-        else {
+        } else {
             removed = items[nextLast - 1];
             items[nextLast - 1] = null;
             nextLast = nextLast - 1;
@@ -153,7 +152,7 @@ public class ArrayDeque<T> implements Iterable<T>, Deque<T> {
         }
     }
 
-    public void resize(int capacity) {
+    private void resize(int capacity) {
         T[] a = (T[]) new Object[capacity];
         //copy to the new array, starting from index 1
         // the range is the right of nextFirst until the left of nextLast
@@ -167,10 +166,6 @@ public class ArrayDeque<T> implements Iterable<T>, Deque<T> {
         nextLast = size + 1;
     }
 
-//    public boolean isEmpty() {
-//        if(size == 0) { return true; }
-//        return false;
-//    }
 
     public int size() {
         return size;

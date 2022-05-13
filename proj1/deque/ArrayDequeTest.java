@@ -2,17 +2,13 @@ package deque;
 
 import org.junit.Test;
 import edu.princeton.cs.algs4.StdRandom;
-import java.lang.reflect.Array;
-import java.util.Iterator;
-import java.util.Optional;
-
 import static org.junit.Assert.*;
 
 
 public class ArrayDequeTest {
    @Test
     /** Testing the Iterator*/
-    public static void main(String[] args) {
+    public static void main (String[] args) {
         ArrayDeque<Integer> ad = new ArrayDeque<Integer>();
         ArrayDeque<Integer> ad2 = new ArrayDeque<Integer>();
         LinkedListDeque<Integer> ld1 = new LinkedListDeque<Integer>();
@@ -26,8 +22,6 @@ public class ArrayDequeTest {
         for (Integer item : ld1) {
             System.out.println(item);
         }
-
-        //if(ad.equals(ad2)) {System.out.println("Yes");}
     }
 
     @Test

@@ -133,7 +133,19 @@ public class LinkedListDequeTest {
         for (double i = 999999; i > 500000; i--) {
             assertEquals("Should have the same value", i, (double) lld1.removeLast(), 0.0);
         }
+    }
 
+    @Test
+    /* Testing the removeFirst and removeLast methods*/
+    public void removes() {
+        LinkedListDeque<Integer> lld1 = new LinkedListDeque<Integer>();
+        for (int i = 0; i < 10; i++) {
+            lld1.addFirst(i);
+        }
+
+        for (int i = 0; i < 5; i++) {
+            lld1.removeLast();
+        }
 
     }
 }
