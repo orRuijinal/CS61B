@@ -1,10 +1,7 @@
 package gh2;
 
-// TODO: uncomment the following import once you're ready to start this portion
-import deque.ArrayDeque;
 import deque.Deque;
 import deque.LinkedListDeque;
-import java.lang.Math;
 
 //Note: This file will not compile until you complete the Deque implementations
 public class GuitarString {
@@ -18,7 +15,7 @@ public class GuitarString {
     public GuitarString(double frequency) {
         buffer = new LinkedListDeque<>();
         int capacity = (int) Math.round(SR / frequency);
-        for (int i = 0; i < capacity; i+=1) {
+        for (int i = 0; i < capacity; i++) {
             buffer.addLast(0.0);
         }
     }
@@ -39,12 +36,11 @@ public class GuitarString {
     public void tic() {
         double front = buffer.removeFirst();
         double second = buffer.get(0);
-        buffer.addLast(DECAY * 1/2 * (front + second));
+        buffer.addLast(DECAY * 1 / 2 * (front + second));
     }
 
     /* Return the double at the front of the buffer. */
     public double sample() {
-        // TODO: Return the correct thing.
         return buffer.get(0);
     }
 }

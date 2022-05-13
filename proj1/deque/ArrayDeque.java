@@ -35,10 +35,13 @@ public class ArrayDeque<T> implements Iterable<T>, Deque<T> {
     @Override
     public boolean equals(Object o) {
         if (o == null) { return false; }
+
         if (this == o) { return true; }
-        if (this.getClass() != o.getClass()) {return false;}
+
+        if (! (o instanceof ArrayDeque)) { return false; }
+
         ArrayDeque<T> other = (ArrayDeque<T>) o;
-        if (this.size() != other.size()) {return false;}
+        if (this.size() != other.size()) { return false; }
 
         for (T item : this) {
             if(!other.contains(item)) {
@@ -119,7 +122,7 @@ public class ArrayDeque<T> implements Iterable<T>, Deque<T> {
 
     public void addFirst(T item) {
 
-        if(size == items.length) {
+        if (size == items.length) {
             // make the factor to 2 for now
             resize(items.length * resizeFactor);
         }
@@ -137,7 +140,7 @@ public class ArrayDeque<T> implements Iterable<T>, Deque<T> {
     }
 
     public void addLast(T item) {
-        if(size == items.length) {
+        if (size == items.length) {
             resize(items.length * resizeFactor);
         }
 
@@ -146,8 +149,7 @@ public class ArrayDeque<T> implements Iterable<T>, Deque<T> {
         // point to the start of the array when nextLast is > items.length
         if (nextLast + 1 >= items.length) {
             nextLast = 0;
-        }
-        else {
+        } else {
             nextLast += 1;
         }
     }
