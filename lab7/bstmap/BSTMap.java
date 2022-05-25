@@ -8,7 +8,7 @@ import java.util.Set;
 // Amy:18
 // Ben:7
 // Rick:55*/
-public class BSTMap<K extends Comparable, V> implements Map61B<K, V> {
+public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
     private Node root;
     private int size;
     private class Node {
@@ -22,8 +22,11 @@ public class BSTMap<K extends Comparable, V> implements Map61B<K, V> {
             this.value = value;
         }
     }
-    
 
+    public void printInOder() {
+        return;
+    }
+    
     @Override
     public void clear() {
         root = null;
@@ -92,7 +95,7 @@ public class BSTMap<K extends Comparable, V> implements Map61B<K, V> {
     }
 
     @Override
-    public Set keySet() {
+    public Set<K> keySet() {
         throw new UnsupportedOperationException("Invalid Operation for BSTMap");
     }
 
@@ -109,7 +112,7 @@ public class BSTMap<K extends Comparable, V> implements Map61B<K, V> {
 
 
     @Override
-    public Iterator iterator() {
+    public Iterator<K> iterator() {
         throw new UnsupportedOperationException("Invalid Operation for BSTMap");
     }
 }
