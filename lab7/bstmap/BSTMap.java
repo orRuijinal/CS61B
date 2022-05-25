@@ -23,10 +23,10 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
         }
     }
 
-    public void printInOder() {
+    public void printInOrder() {
         return;
     }
-    
+
     @Override
     public void clear() {
         root = null;
